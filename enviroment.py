@@ -40,4 +40,4 @@ class Enviroment:
                 elif e == 2:
                     string += " A "
             print(string + "|")
-        print("\n \n \n")
+        print("\n \n")

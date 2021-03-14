@@ -50,4 +50,19 @@ class Animal:
                     return Animal([x, y], self.env, 2 + self.env.map[x, y])
 
     def next_decision(self):
-        return rnd.randint(1, 2)
+        p = rnd.random()
+        if self.state == 1 or self.state == 2:
+            if p < 0.5:
+                return 1
+            else:
+                return 2
+        elif self.state == 3:
+            if p < 0.3:
+                return 3
+            elif p < 0.65:
+                return 1
+            else:
+                return 2
+        elif self.state == 4:
+            return 3
+
