@@ -5,6 +5,7 @@ import copy
 class Animal:
 
     ID = 0
+    POLICY_ARRAY = []
 
     def __init__(self, starting_pos, enviroment, starting_state):
         self.id = Animal.ID + 1
@@ -50,19 +51,5 @@ class Animal:
                     return Animal([x, y], self.env, 2 + self.env.map[x, y])
 
     def next_decision(self):
-        p = rnd.random()
-        if self.state == 1 or self.state == 2:
-            if p < 0.5:
-                return 1
-            else:
-                return 2
-        elif self.state == 3:
-            if p < 0.3:
-                return 3
-            elif p < 0.65:
-                return 1
-            else:
-                return 2
-        elif self.state == 4:
-            return 3
+        return int(Animal.POLICY_ARRAY[int(self.state)])
 
