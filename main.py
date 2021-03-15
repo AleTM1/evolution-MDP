@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 INIT_FOOD_PROB = 0.6
 REGEN_FOOD_PROB = 0.2
-SQUARE_EDGE = 20
+SQUARE_EDGE = 30
 
 env = Enviroment(SQUARE_EDGE)
 Animal.POLICY_ARRAY = compute_policies()
@@ -41,7 +41,7 @@ for iteration in range(1, 150):
             env.map[animal.pos[0], animal.pos[1]] = 0
     print("Population dimension: " + str(population_dimension))
     population_array.append(population_dimension)
-    #env.print_map()
+    # env.print_map()
     if iteration % 3 == 0:
         env.generate_food(REGEN_FOOD_PROB)
     animals = updated_animals

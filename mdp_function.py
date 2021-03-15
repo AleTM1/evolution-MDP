@@ -11,18 +11,19 @@ transition_matrix = np.array([[[1, 0, 0, 0, 0], [0.17, 0.36, 0.31, 0.13, 0.03], 
 
 N_ACTIONS = 3
 N_STATES = 5
+HORIZON = 6
+DISCRDING_FACTOR = 0.8
 
 
 def evaluate_policy(s, action, tM, rM, k):
-    if k == 6:
+    if k == HORIZON:
         return 0
     total = 0
-    beta = 0.8
-    n_states = 5
+    beta = DISCRDING_FACTOR
 
     def big_sum(a):
         result = 0
-        for s_prime in range(0, n_states):
+        for s_prime in range(0, N_STATES):
             result += tM[a, s, s_prime] * evaluate_policy(s_prime, a, tM, rM, k+1)
         return result
 
@@ -30,9 +31,9 @@ def evaluate_policy(s, action, tM, rM, k):
     return total
 
 
-def find_best_action(s, tM, rM, n_actions):
+def find_best_action(s, tM, rM):
     evaluation_array = []
-    for a in range(0, n_actions):
+    for a in range(0, N_ACTIONS):
         evaluation_array.append(evaluate_policy(s, a, tM, rM, 0))
     return evaluation_array.index(max(evaluation_array)) + 1
 
@@ -40,6 +41,6 @@ def find_best_action(s, tM, rM, n_actions):
 def compute_policies():
     policy_array = np.zeros(N_STATES)
     for state in range(0, N_STATES):
-        policy_array[state] = find_best_action(state, transition_matrix, reward_matrix, N_ACTIONS)
+        policy_array[state] = find_best_action(state, transition_matrix, reward_matrix)
     return policy_array
 
