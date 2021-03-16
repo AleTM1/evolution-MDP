@@ -4,9 +4,9 @@ import random as rnd
 from mdp_function import compute_policies
 import matplotlib.pyplot as plt
 
-
 INIT_FOOD_PROB = 0.6
-REGEN_FOOD_PROB = 0.2
+REGEN_FOOD_PROB = 0.06
+UPDATE_FOOD_TIME = 1
 SQUARE_EDGE = 30
 
 env = Enviroment(SQUARE_EDGE)
@@ -32,8 +32,10 @@ for iteration in range(1, 150):
         elif decision == 2:
             animal.sensing()
         elif decision == 3:
-            updated_animals.append(animal.reproduce())
-            population_dimension += 1
+            child = animal.reproduce()
+            if child is not None:
+                updated_animals.append(child)
+                population_dimension += 1
         if animal.state > 0:
             updated_animals.append(animal)
             population_dimension += 1
@@ -42,13 +44,14 @@ for iteration in range(1, 150):
     print("Population dimension: " + str(population_dimension))
     population_array.append(population_dimension)
     # env.print_map()
-    if iteration % 3 == 0:
+    if iteration % UPDATE_FOOD_TIME == 0:
         env.generate_food(REGEN_FOOD_PROB)
     animals = updated_animals
-
 
 plt.plot(range(len(population_array)), population_array)
 plt.xlabel("Time")
 plt.ylabel("Population")
-plt.title("Initial food prob: " + str(INIT_FOOD_PROB) + ". Regen prob: " + str(REGEN_FOOD_PROB) + ". Map dimension: " + str(SQUARE_EDGE**2))
+plt.title(
+    "Initial food prob: " + str(INIT_FOOD_PROB) + ". Regen prob: " + str(REGEN_FOOD_PROB) + ". Map dimension: " + str(
+        SQUARE_EDGE ** 2))
 plt.show()

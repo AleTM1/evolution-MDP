@@ -49,6 +49,7 @@ class Animal:
                 y = self.pos[1] + j
                 if self.env.check_safe(x, y):
                     return Animal([x, y], self.env, 2 + self.env.map[x, y])
+        return None
 
     def next_decision(self):
         return int(Animal.POLICY_ARRAY[int(self.state)])
