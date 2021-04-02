@@ -4,10 +4,10 @@ import random as rnd
 from mdp_function import compute_policies
 import matplotlib.pyplot as plt
 
-INIT_FOOD_PROB = 0.6
-REGEN_FOOD_PROB = 0.06
+INIT_FOOD_PROB = 0.2
+REGEN_FOOD_PROB = 0.3
 UPDATE_FOOD_TIME = 1
-SQUARE_EDGE = 30
+SQUARE_EDGE = 40
 
 env = Enviroment(SQUARE_EDGE)
 Animal.POLICY_ARRAY = compute_policies()
@@ -21,7 +21,7 @@ env.print_map()
 
 
 population_array = []
-for iteration in range(1, 150):
+for iteration in range(1, 300):
     print("ITERATION: " + str(iteration))
     updated_animals = []
     population_dimension = 0

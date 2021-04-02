@@ -1,6 +1,6 @@
 import numpy as np
 
-reward_matrix = np.array([[-5, -5, -5], [3, 5, 0], [5, 3, 0], [1, 2, 20], [2, 1, 20]])
+reward_matrix = np.array([[-5, -5, -5], [3, 5, 0], [5, 3, 0], [1, 2, 15], [2, 1, 20]])
 
 transition_matrix = np.array([[[1, 0, 0, 0, 0], [0.17, 0.36, 0.31, 0.13, 0.03], [0, 0.17, 0.36, 0.31, 0.16],
                               [0, 0, 0.17, 0.36, 0.47], [0, 0, 0, 0.17, 0.83]],
@@ -12,14 +12,13 @@ transition_matrix = np.array([[[1, 0, 0, 0, 0], [0.17, 0.36, 0.31, 0.13, 0.03], 
 N_ACTIONS = 3
 N_STATES = 5
 HORIZON = 6
-DISCRDING_FACTOR = 0.8
+BETA = 0.8
 
 
 def evaluate_policy(s, action, tM, rM, k):
     if k == HORIZON:
         return 0
     total = 0
-    beta = DISCRDING_FACTOR
 
     def big_sum(a):
         result = 0
@@ -27,7 +26,7 @@ def evaluate_policy(s, action, tM, rM, k):
             result += tM[a, s, s_prime] * evaluate_policy(s_prime, a, tM, rM, k+1)
         return result
 
-    total += rM[s, action] + beta * big_sum(action)
+    total += rM[s, action] + BETA * big_sum(action)
     return total
 
 
@@ -44,3 +43,4 @@ def compute_policies():
         policy_array[state] = find_best_action(state, transition_matrix, reward_matrix)
     return policy_array
 
+print(compute_policies())

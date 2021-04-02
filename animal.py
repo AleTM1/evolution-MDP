@@ -16,20 +16,28 @@ class Animal:
         self.state = starting_state
 
     def move(self):
+        def check_free_square():
+            for i in [-1, 0, 1]:
+                for j in [-1, 0, 1]:
+                    if self.env.check_safe(self.pos[0] + i, self.pos[1] + j):
+                        return True
+            return False
+
         steps = 5
         self.state -= 1
-        old_pos = copy.deepcopy(self.pos)
-        for _ in range(steps):
-            new_x = self.pos[0] + rnd.randint(-1, 1)
-            new_y = self.pos[1] + rnd.randint(-1, 1)
-            while not self.env.check_safe(new_x, new_y):
+        if check_free_square():
+            old_pos = copy.deepcopy(self.pos)
+            for _ in range(steps):
                 new_x = self.pos[0] + rnd.randint(-1, 1)
                 new_y = self.pos[1] + rnd.randint(-1, 1)
-            if self.env.map[new_x, new_y] == 1:
-                self.state = min(self.state + 1, 4)
-                self.env.map[new_x, new_y] = 0
-            self.pos = [new_x, new_y]
-        self.env.update_animal_position(self.pos, old_pos)
+                while not self.env.check_safe(new_x, new_y):
+                    new_x = self.pos[0] + rnd.randint(-1, 1)
+                    new_y = self.pos[1] + rnd.randint(-1, 1)
+                if self.env.map[new_x, new_y] == 1:
+                    self.state = min(self.state + 1, 4)
+                    self.env.map[new_x, new_y] = 0
+                self.pos = [new_x, new_y]
+            self.env.update_animal_position(self.pos, old_pos)
 
     def sensing(self):
         self.state -= 1
