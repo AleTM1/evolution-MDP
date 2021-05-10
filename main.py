@@ -8,6 +8,7 @@ INIT_FOOD_PROB = 0.2
 REGEN_FOOD_PROB = 0.3
 UPDATE_FOOD_TIME = 1
 SQUARE_EDGE = 40
+PRINT_ENV = True
 
 env = Enviroment(SQUARE_EDGE)
 Animal.POLICY_ARRAY = compute_policies()
@@ -43,7 +44,8 @@ for iteration in range(1, 300):
             env.map[animal.pos[0], animal.pos[1]] = 0
     print("Population dimension: " + str(population_dimension))
     population_array.append(population_dimension)
-    # env.print_map()
+    if PRINT_ENV:
+        env.print_map()
     if iteration % UPDATE_FOOD_TIME == 0:
         env.generate_food(REGEN_FOOD_PROB)
     animals = updated_animals
